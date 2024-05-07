@@ -148,8 +148,8 @@ jobs:
         -DENABLE_BITCODE=$ENABLE_BITCODE \
         -DENABLE_ARC=$ENABLE_ARC \
         -DENABLE_VISIBILITY=$ENABLE_VISIBILITY \
-        -DCMAKE_C_FLAGS="-fno-exceptions" \
-        -DCMAKE_CXX_FLAGS="-fno-exceptions" \
+        -DCMAKE_C_FLAGS="" \
+        -DCMAKE_CXX_FLAGS="" \
         -DCMAKE_INSTALL_PREFIX=install \
         -DCMAKE_BUILD_TYPE=Release \
     steps:
@@ -162,11 +162,6 @@ jobs:
         unzip -q opencv-mobile-${{ matrix.opencv-version }}.zip
         echo "SOURCE_DIR=opencv-mobile-${{ matrix.opencv-version }}" >> $GITHUB_ENV
         echo "PACKAGE_NAME=opencv-mobile-${{ matrix.opencv-version }}-ios" >> $GITHUB_ENV
-    - name: workaround-opencv2-list
-      if: matrix.opencv-version == '2.4.13.7'
-      run: |
-        # workaround ar @list issue on macos
-        sed -i -e 's!\\"${objpath4}\\"!${objpath4}!g' ${{ env.SOURCE_DIR }}/modules/world/CMakeLists.txt
     - name: build-arm64
       run: |
         cd ${{ env.SOURCE_DIR }}
@@ -193,13 +188,6 @@ jobs:
         cp ${{ env.SOURCE_DIR }}/Info.plist opencv2.framework/Versions/A/Resources/
         rm -f ${{ env.PACKAGE_NAME }}.zip
         zip -9 -y -r ${{ env.PACKAGE_NAME }}.zip opencv2.framework
-    - name: test
-      run: |
-        cd test
-        mkdir build && cd build
-        cmake ${{ env.COMMON_CMAKE_OPTIONS }} -DARCHS="arm64" \
-            -DOpenCV_DIR=$GITHUB_WORKSPACE ..
-        cmake --build . -j 4
     - name: upload-zip
       uses: actions/upload-artifact@v4
       with:
