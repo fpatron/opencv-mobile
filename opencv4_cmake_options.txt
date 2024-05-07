@@ -37,7 +37,7 @@
 -DWITH_PTHREADS_PF=OFF
 -DWITH_V4L=OFF
 -DWITH_CLP=OFF
--DWITH_OPENCL=OFF
+-DWITH_OPENCL=ON
 -DWITH_OPENCL_SVM=OFF
 -DWITH_VA=OFF
 -DWITH_VA_INTEL=OFF
@@ -86,5 +86,5 @@
 -DBUILD_opencv_calib3d=OFF
 -DBUILD_opencv_flann=OFF
 -DBUILD_opencv_objdetect=OFF
--DBUILD_opencv_stitching=OFF
+-DBUILD_opencv_stitching=ON
 -DBUILD_opencv_ml=OFF
