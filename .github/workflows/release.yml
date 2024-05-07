@@ -40,7 +40,20 @@ jobs:
         rm opencv-${{ env.opencv-version }}.zip
         cd opencv-${{ env.opencv-version }}
         truncate -s 0 cmake/OpenCVFindLibsGrfmt.cmake
-        
+        rm -rf modules/gapi
+        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-no-rtti.patch
+        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-no-zlib.patch
+        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-link-openmp.patch
+        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-minimal-install.patch
+        cp ../patches/draw_text.h ../patches/mono_font_data.h modules/imgproc/src/
+        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-drawing-mono-font.patch
+        rm -rf modules/highgui
+        cp -r ../highgui modules/
+        rm -rf apps data doc samples platforms
+        rm -rf modules/java
+        rm -rf modules/js
+        rm -rf modules/python
+        rm -rf modules/ts
         sed -e 's/__VERSION__/${{ env.opencv-version }}/g' ../patches/Info.plist > ./Info.plist
         cp ../opencv4_cmake_options.txt ./options.txt
         cd ..
