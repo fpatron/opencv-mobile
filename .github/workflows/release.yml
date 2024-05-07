@@ -45,7 +45,7 @@ jobs:
         patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-link-openmp.patch
         patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-minimal-install.patch
         cp ../patches/draw_text.h ../patches/mono_font_data.h modules/imgproc/src/
-        rm -rf 3rdparty apps data doc samples platforms
+        rm -rf apps data doc samples platforms
         rm -rf modules/java
         rm -rf modules/js
         rm -rf modules/python
