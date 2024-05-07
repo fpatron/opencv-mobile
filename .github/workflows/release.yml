@@ -40,61 +40,7 @@ jobs:
         rm opencv-${{ env.opencv-version }}.zip
         cd opencv-${{ env.opencv-version }}
         truncate -s 0 cmake/OpenCVFindLibsGrfmt.cmake
-        rm -rf modules/gapi
-
-        rm modules/core/src/cuda_*
-        rm modules/core/src/direct*
-        rm modules/core/src/gl_*
-        rm modules/core/src/intel_gpu_*
-        rm modules/core/src/ocl*
-        rm modules/core/src/opengl.cpp
-        rm modules/core/src/ovx.cpp
-        rm modules/core/src/umatrix.hpp
-        rm modules/core/src/va_intel.cpp
-        rm modules/core/src/va_wrapper.impl.hpp
-
-        rm modules/core/include/opencv2/core/cuda*.hpp
-        rm modules/core/include/opencv2/core/directx.hpp
-        rm modules/core/include/opencv2/core/ocl*.hpp
-        rm modules/core/include/opencv2/core/opengl.hpp
-        rm modules/core/include/opencv2/core/ovx.hpp
-        rm modules/core/include/opencv2/core/private.cuda.hpp
-        rm modules/core/include/opencv2/core/va_*.hpp
-        rm -rf modules/core/include/opencv2/core/cuda
-        rm -rf modules/core/include/opencv2/core/opencl
-        rm -rf modules/core/include/opencv2/core/openvx
-
-        rm modules/photo/src/denoising.cuda.cpp
-        rm modules/photo/include/opencv2/photo/cuda.hpp
-
-        find modules -type d | xargs -i rm -rf {}/src/cuda
-        find modules -type d | xargs -i rm -rf {}/src/opencl
-        find modules -type d | xargs -i rm -rf {}/perf/cuda
-        find modules -type d | xargs -i rm -rf {}/perf/opencl
-        find modules -type f | xargs -i sed -i '/opencl_kernels/d' {}
-        find modules -type f | xargs -i sed -i '/cuda.hpp/d' {}
-        find modules -type f | xargs -i sed -i '/opengl.hpp/d' {}
-        find modules -type f | xargs -i sed -i '/ocl_defs.hpp/d' {}
-        find modules -type f | xargs -i sed -i '/ocl.hpp/d' {}
-        find modules -type f | xargs -i sed -i '/ovx_defs.hpp/d' {}
-        find modules -type f | xargs -i sed -i '/ovx.hpp/d' {}
-        find modules -type f | xargs -i sed -i '/va_intel.hpp/d' {}
-
-        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-no-gpu.patch
-
-        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-no-rtti.patch
-        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-no-zlib.patch
-        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-link-openmp.patch
-        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-minimal-install.patch
-        cp ../patches/draw_text.h ../patches/mono_font_data.h modules/imgproc/src/
-        patch -p1 -i ../patches/opencv-${{ env.opencv-version }}-drawing-mono-font.patch
-        rm -rf modules/highgui
-        cp -r ../highgui modules/
-        rm -rf 3rdparty apps data doc samples platforms
-        rm -rf modules/java
-        rm -rf modules/js
-        rm -rf modules/python
-        rm -rf modules/ts
+        
         sed -e 's/__VERSION__/${{ env.opencv-version }}/g' ../patches/Info.plist > ./Info.plist
         cp ../opencv4_cmake_options.txt ./options.txt
         cd ..
